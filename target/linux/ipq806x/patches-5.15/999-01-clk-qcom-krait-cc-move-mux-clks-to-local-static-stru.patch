@@ -164,7 +164,7 @@ index 410ae8390f1c..83c72364e89d 100644
  
  static const struct of_device_id krait_cc_match_table[] = {
 @@ -351,7 +352,7 @@ static int krait_cc_probe(struct platform_device *pdev)
- 	unsigned long cur_rate, aux_rate;
+ 	unsigned long cur_rate, aux_rate, qsb_rate;
  	int cpu;
  	struct clk_hw *mux, *l2_pri_mux;
 -	struct clk *clk, **clks;
@@ -172,7 +172,7 @@ index 410ae8390f1c..83c72364e89d 100644
  
  	id = of_match_device(krait_cc_match_table, dev);
  	if (!id)
-@@ -369,22 +370,17 @@ static int krait_cc_probe(struct platform_device *pdev)
+@@ -377,22 +378,17 @@ static int krait_cc_probe(struct platform_device *pdev)
  			return PTR_ERR(clk);
  	}
  
@@ -199,7 +199,7 @@ index 410ae8390f1c..83c72364e89d 100644
  
  	/*
  	 * We don't want the CPU or L2 clocks to be turned off at late init
-@@ -394,8 +390,8 @@ static int krait_cc_probe(struct platform_device *pdev)
+@@ -402,8 +398,8 @@ static int krait_cc_probe(struct platform_device *pdev)
  	 * they take over.
  	 */
  	for_each_online_cpu(cpu) {
@@ -210,7 +210,7 @@ index 410ae8390f1c..83c72364e89d 100644
  		     "Unable to turn on CPU%d clock", cpu);
  	}
  
-@@ -410,18 +406,18 @@ static int krait_cc_probe(struct platform_device *pdev)
+@@ -418,18 +414,18 @@ static int krait_cc_probe(struct platform_device *pdev)
  	 * two different rates to force a HFPLL reinit under all
  	 * circumstances.
  	 */
@@ -235,7 +235,7 @@ index 410ae8390f1c..83c72364e89d 100644
  		cur_rate = clk_get_rate(clk);
  		if (cur_rate < aux_rate) {
  			pr_info("CPU%d @ Undefined rate. Forcing new rate.\n", cpu);
-@@ -434,7 +430,7 @@ static int krait_cc_probe(struct platform_device *pdev)
+@@ -442,7 +438,7 @@ static int krait_cc_probe(struct platform_device *pdev)
  		pr_info("CPU%d @ %lu KHz\n", cpu, clk_get_rate(clk) / 1000);
  	}
  
