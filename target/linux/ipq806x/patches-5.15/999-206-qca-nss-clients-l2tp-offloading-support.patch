@@ -1,6 +1,6 @@
 --- a/include/linux/ppp_channel.h
 +++ b/include/linux/ppp_channel.h
-@@ -45,6 +56,47 @@ struct ppp_channel {
+@@ -59,6 +70,47 @@ struct ppp_channel {
  };
  
  #ifdef __KERNEL__
@@ -48,7 +48,7 @@
  /* Called by the channel when it can send some more data. */
  extern void ppp_output_wakeup(struct ppp_channel *);
  
-@@ -83,5 +135,17 @@ extern char *ppp_dev_name(struct ppp_cha
+@@ -146,5 +187,17 @@ extern char *ppp_dev_name(struct ppp_cha
   * that ppp_unregister_channel returns.
   */
  
@@ -101,7 +101,7 @@
  #endif
 --- a/net/l2tp/l2tp_ppp.c
 +++ b/net/l2tp/l2tp_ppp.c
-@@ -380,6 +392,13 @@ static int pppol2tp_xmit(struct ppp_chan
+@@ -374,6 +386,13 @@ static int pppol2tp_xmit(struct ppp_chan
  	skb->data[0] = PPP_ALLSTATIONS;
  	skb->data[1] = PPP_UI;
  
@@ -113,9 +113,9 @@
 +	/* QCA NSS ECM support - End */
 +
  	local_bh_disable();
- 	l2tp_xmit_skb(session, skb, session->hdr_len);
+ 	l2tp_xmit_skb(session, skb);
  	local_bh_enable();
-@@ -1749,6 +1768,109 @@ static void __exit pppol2tp_exit(void)
+@@ -1733,6 +1740,109 @@ static void __exit pppol2tp_exit(void)
  	unregister_pernet_device(&pppol2tp_net_ops);
  }
  
@@ -228,8 +228,8 @@
 *** a/drivers/net/ppp/ppp_generic.c	2022-04-06 17:25:52.144576100 +0900
 --- b/drivers/net/ppp/ppp_generic.c	2022-04-06 17:32:55.164576100 +0900
 *************** int ppp_is_multilink(struct net_device *
-*** 3502,3507 ****
---- 3502,3533 ----
+*** 3742,3747 ****
+--- 3742,3773 ----
   }
   EXPORT_SYMBOL(ppp_is_multilink);
   
@@ -263,8 +263,8 @@
    *	Call this to obtain the underlying protocol of the PPP channel,
    *	e.g. PX_PROTO_OE
 *************** int ppp_hold_channels(struct net_device
-*** 3606,3611 ****
---- 3632,3690 ----
+*** 3880,3885 ****
+--- 3906,3964 ----
   }
   EXPORT_SYMBOL(ppp_hold_channels);
   
@@ -324,18 +324,6 @@
   /* ppp_release_channels()
    *	Releases channels
    */
---- a/net/l2tp/l2tp_core.h
-+++ b/net/l2tp/l2tp_core.h
-@@ -232,6 +232,9 @@ struct l2tp_session *l2tp_session_get_nt
- struct l2tp_session *l2tp_session_get_by_ifname(const struct net *net,
- 						const char *ifname);
- 
-+void l2tp_stats_update(struct l2tp_tunnel *tunnel, struct l2tp_session *session,
-+                       struct l2tp_stats *stats);
-+
- /* Tunnel and session lifetime management.
-  * Creation of a new instance is a two-step process: create, then register.
-  * Destruction is triggered using the *_delete functions, and completes asynchronously.
 *** a/net/l2tp/l2tp_ppp.c	2022-08-20 11:19:37.748454800 +0900
 --- b/net/l2tp/l2tp_ppp.c	2022-08-20 11:24:40.138454800 +0900
 *************** struct pppol2tp_session {
@@ -368,7 +356,7 @@
   
   static const struct proto_ops pppol2tp_ops;
 *************** static int pppol2tp_connect(struct socke
-*** 809,815 ****
+*** 826,832 ****
   	po->chan.hdrlen = PPPOL2TP_L2TP_HDR_SIZE_NOSEQ;
   
   	po->chan.private = sk;
@@ -376,7 +364,7 @@
   	po->chan.mtu	 = pppol2tp_tunnel_mtu(tunnel);
   
   	error = ppp_register_net_channel(sock_net(sk), &po->chan);
---- 875,881 ----
+--- 892,898 ----
   	po->chan.hdrlen = PPPOL2TP_L2TP_HDR_SIZE_NOSEQ;
   
   	po->chan.private = sk;
