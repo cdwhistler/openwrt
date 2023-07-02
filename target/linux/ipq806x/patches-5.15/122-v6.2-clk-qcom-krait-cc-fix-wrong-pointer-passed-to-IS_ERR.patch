@@ -17,7 +17,7 @@ diff --git a/drivers/clk/qcom/krait-cc.c b/drivers/clk/qcom/krait-cc.c
 index 2f9287c263ec..410ae8390f1c 100644
 --- a/drivers/clk/qcom/krait-cc.c
 +++ b/drivers/clk/qcom/krait-cc.c
-@@ -376,8 +376,8 @@ static int krait_cc_probe(struct platform_device *pdev)
+@@ -384,8 +384,8 @@ static int krait_cc_probe(struct platform_device *pdev)
  
  	for_each_possible_cpu(cpu) {
  		mux = krait_add_clks(dev, cpu, id->data);
