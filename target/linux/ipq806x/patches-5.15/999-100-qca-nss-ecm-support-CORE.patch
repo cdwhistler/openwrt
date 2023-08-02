@@ -356,7 +356,7 @@
  /*
   * Determine initial path cost based on speed.
   * using recommendations from 802.1d standard
-@@ -706,6 +713,8 @@ int br_add_if(struct net_bridge *br, str
+@@ -707,6 +714,8 @@ int br_add_if(struct net_bridge *br, str
  
  	kobject_uevent(&p->kobj, KOBJ_ADD);
  
@@ -365,7 +365,7 @@
  	return 0;
  
  err6:
-@@ -741,6 +750,8 @@ int br_del_if(struct net_bridge *br, str
+@@ -742,6 +751,8 @@ int br_del_if(struct net_bridge *br, str
  	if (!p || p->br != br)
  		return -EINVAL;
  
@@ -374,7 +374,7 @@
  	/* Since more than one interface can be attached to a bridge,
  	 * there still maybe an alternate path for netconsole to use;
  	 * therefore there is no reason for a NETDEV_RELEASE event.
-@@ -784,3 +795,75 @@ bool br_port_flag_is_set(const struct ne
+@@ -785,3 +796,75 @@ bool br_port_flag_is_set(const struct ne
  	return p->flags & flag;
  }
  EXPORT_SYMBOL_GPL(br_port_flag_is_set);
@@ -594,7 +594,7 @@
  	struct fib_table *tb;
 --- a/net/ipv6/addrconf.c
 +++ b/net/ipv6/addrconf.c
-@@ -987,6 +987,7 @@ void inet6_ifa_finish_destroy(struct ine
+@@ -986,6 +986,7 @@ void inet6_ifa_finish_destroy(struct ine
  
  	kfree_rcu(ifp, rcu);
  }
@@ -602,7 +602,7 @@
  
  static void
  ipv6_link_dev_addr(struct inet6_dev *idev, struct inet6_ifaddr *ifp)
-@@ -2048,6 +2049,7 @@ struct inet6_ifaddr *ipv6_get_ifaddr(str
+@@ -2047,6 +2048,7 @@ struct inet6_ifaddr *ipv6_get_ifaddr(str
  
  	return result;
  }
@@ -676,7 +676,7 @@
   */
 --- a/net/ipv6/ip6_gre.c
 +++ b/net/ipv6/ip6_gre.c
-@@ -1939,6 +1939,7 @@ static void ip6gre_tap_setup(struct net_
+@@ -1940,6 +1940,7 @@ static void ip6gre_tap_setup(struct net_
  
  	dev->priv_flags &= ~IFF_TX_SKB_SHARING;
  	dev->priv_flags |= IFF_LIVE_ADDR_CHANGE;

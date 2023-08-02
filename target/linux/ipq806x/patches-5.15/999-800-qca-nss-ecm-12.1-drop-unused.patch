@@ -91,7 +91,7 @@
  				 unsigned int chan_sz);
 --- a/drivers/net/ppp/pptp.c
 +++ b/drivers/net/ppp/pptp.c
-@@ -92,32 +92,6 @@ static int lookup_chan_dst(u16 call_id,
+@@ -93,32 +93,6 @@ static int lookup_chan_dst(u16 call_id,
  	return i < MAX_CALLID;
  }
  
@@ -124,7 +124,7 @@
  /* Search a pptp session based on peer call id and peer ip address */
  static int lookup_session_dst(struct pptp_opt *opt, u16 call_id, __be32 d_addr)
  {
-@@ -748,20 +722,6 @@ int pptp_session_find(struct pptp_opt *o
+@@ -758,20 +732,6 @@ int pptp_session_find(struct pptp_opt *o
  }
  EXPORT_SYMBOL(pptp_session_find);
  
