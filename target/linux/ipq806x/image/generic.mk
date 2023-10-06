@@ -345,7 +345,7 @@ define Device/netgear_r7800
 	PAGESIZE := 2048
 	BOARD_NAME := r7800
 	SUPPORTED_DEVICES += r7800
-	DEVICE_PACKAGES := ath10k-firmware-qca9984-ct kmod-ramoops
+	DEVICE_PACKAGES := ath10k-firmware-qca9984 kmod-ramoops
 endef
 TARGET_DEVICES += netgear_r7800
 
