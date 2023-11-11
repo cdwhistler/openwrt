@@ -31,42 +31,43 @@ ipq806x_setup_interfaces()
 		ucidef_add_switch "switch0" \
 			"1:lan" "2:lan" "3:lan" "4:lan" "6@eth1" "5:wan" "0@eth0"
 		;;
-	edgecore,ecw5410 |\
-	extreme,ap3935)
-		ucidef_set_interfaces_lan_wan "eth1" "eth0"
-		;;
 	linksys,ea7500-v1)
 		ucidef_add_switch "switch0" \
 			"2:lan:1" "3:lan:2" "4:lan:3" "5:lan:4" "6@eth1" "1:wan" "0@eth0"
-	;;
+		;;
 	linksys,ea8500)
 		ucidef_add_switch "switch0" \
 			"1:lan" "2:lan" "3:lan" "4:lan" "6@eth1" "5:wan" "0@eth0"
-		;;
-	meraki,mr42)
-		ucidef_set_interface_lan "eth0"
-		;;
-	meraki,mr52)
-		ucidef_set_interfaces_lan_wan "eth0" "eth1"
 		;;
 	nec,wg2600hp3)
 		ucidef_add_switch "switch0" \
 			"2:lan" "3:lan" "4:lan" "5:lan" "0@eth1" "1:wan" "6@eth0"
 		;;
-	netgear,r7800)
-		ucidef_set_interfaces_lan_wan "lan1 lan2 lan3 lan4" "wan"
-		ucidef_set_network_device_conduit "lan1" "eth1"
-		ucidef_set_network_device_conduit "lan2" "eth1"
-		ucidef_set_network_device_conduit "lan3" "eth1"
-		ucidef_set_network_device_conduit "lan4" "eth1"
-		ucidef_set_network_device_conduit "wan" "eth0"
-		;;
-	netgear,xr450 |\
+	netgear,r7800 |\
 	netgear,xr500 |\
+	netgear,xr450 |\
 	tplink,c2600 |\
 	tplink,vr2600v)
 		ucidef_add_switch "switch0" \
 			"1:lan:4" "2:lan:3" "3:lan:2" "4:lan:1" "6@eth1" "5:wan" "0@eth0"
+		;;
+	tplink,ad7200)
+		ucidef_add_switch "switch0" \
+			"2:lan:1" "3:lan:2" "4:lan:3" "5:lan:4" "6@eth1" "1:wan" "0@eth0"
+		;;
+	zyxel,nbg6817)
+		ucidef_add_switch "switch0" \
+			"1:lan" "2:lan" "3:lan" "4:lan" "6@eth1" "5:wan" "0@eth0"
+		;;
+	asus,onhub |\
+	tplink,onhub)
+		ucidef_set_interfaces_lan_wan "eth1" "eth0"
+		ucidef_add_switch "switch0" \
+			"1:lan" "6@eth1" "2:wan" "0@eth0"
+		;;
+	edgecore,ecw5410 |\
+	extreme,ap3935)
+		ucidef_set_interfaces_lan_wan "eth1" "eth0"
 		;;
 	qcom,ipq8064-ap161)
 		ucidef_set_interface_lan "eth1 eth2"
@@ -93,9 +94,11 @@ ipq806x_setup_interfaces()
 	ubnt,unifi-ac-hd)
 		ucidef_set_interface_lan "eth0 eth1"
 		;;
-	zyxel,nbg6817)
-		ucidef_add_switch "switch0" \
-			"1:lan" "2:lan" "3:lan" "4:lan" "6@eth1" "5:wan" "0@eth0"
+	meraki,mr42)
+		ucidef_set_interface_lan "eth0"
+		;;
+	meraki,mr52)
+		ucidef_set_interfaces_lan_wan "eth0" "eth1"
 		;;
 	*)
 		echo "Unsupported hardware. Network interfaces not intialized"
